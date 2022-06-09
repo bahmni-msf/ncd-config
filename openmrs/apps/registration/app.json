@@ -1,0 +1,142 @@
+{
+        "id": "bahmni.registration",
+        "instanceOf":"bahmni.template.registration",
+        "description": "Bahmni Patient Registration App",
+        "extensionPoints": [
+            {
+                "id": "org.bahmni.registration.patient.search.result.action",
+                "description": "Bahmni Patient Search Result Action"
+            },
+            {
+                "id": "org.bahmni.registration.patient.next",
+                "description": "After Bahmni Patient Registration, forward url configuration"
+            },
+            {
+                "id": "org.bahmni.registration.navigation",
+                "description": "Navigation within regsitration first and second page"
+            },
+            {
+                "id": "org.bahmni.registration.conceptSetGroup.observations",
+                "description": "Registration Second Page Forms"
+            }
+        ],
+        "contextModel": [
+            "patientUuid",
+            "activeVisitUuid"
+        ],
+        "config" :
+        {
+            "showPatientIdentifier": false,
+            "disablePhotoCapture": true,
+            "forwardUrlsForVisitTypes": [
+                {
+                    "visitType": "OPD",
+                    "forwardUrl": "/appointments-v2/#/home/manage/appointments/calendar",
+                    "translationKey": "REGISTRATION_REDIRECTION_TEXT"
+                }
+            ],
+            "mandatoryPersonAttributes" : [
+                "phoneNumber 1",
+                "phone1Owner",
+                "givenNameLocal",
+                "familyNameLocal"
+            ],
+            "patientInformation": {
+                "Contact Information": {
+                    "title" : "Contact Information",
+                    "translationKey": "REGISTRATION_TITLE_CONTACT_INFORMATION_KEY",
+                    "attributes": [
+                        "phoneNumber 1",
+                        "phone1Owner",
+                        "phoneNumber 2",
+                        "phone2Owner"
+                    ],
+                    "expanded": true
+                },
+                "Emergency Contact Person": {
+                    "title" : "Emergency Contact Person",
+                    "translationKey": "REGISTRATION_TITLE_EMERGENCY_CONTACT_PERSON_KEY",
+                    "attributes": [
+                        "nameOfContactPerson",
+                        "nameOfContactPersonInArabic",
+                        "contactPhoneNumber",
+                        "relationshipToPatient"
+                    ],
+                    "expanded":true
+                },
+                "hidden": {
+                    "attributes": [
+                    ]
+                },
+                "defaults":  {
+                }
+            },
+            "addressHierarchy": {
+                "showAddressFieldsTopDown": false,
+                "strictAutocompleteFromLevel": "stateProvince",
+                "freeTextAddressFields": ["address2", "address1"]
+            },
+            "relationshipTypeMap": {
+                "Doctor":"provider",
+                "Parent":"patient"
+            },
+            "defaultVisitType": "OPD",
+            "searchByIdForwardUrl": "/patient/{{patientUuid}}",
+            "showMiddleName": true,
+            "showLastName": true,
+            "isLastNameMandatory": true,
+            "showSaveConfirmDialog": false,
+            "showBirthTime": false,
+            "showEnterID":false,
+            "showCasteSameAsLastNameCheckbox": false,
+            "printOptions": [
+                {
+                    "translationKey": "REGISTRATION_PRINT_STICKER_KEY",
+                    "templateUrl": "/bahmni_config/openmrs/apps/registration/registrationCardLayout/print_stickers.html",
+                    "shortcutKey": "t"
+                }
+            ],
+            "conceptSetUI": {
+                "REGISTRATION FEES": {
+                    "required": true,
+                    "label": "Fee"
+                },
+                "FHS": {
+                    "buttonSelect": true
+                },
+                "defaults":{
+                    "FHS": "Present"
+                }
+            },
+            "fieldValidation" : {
+                "familyName" : {"pattern" : "^[-a-zA-Z'_ ]{1,50}$.*$", "errorMessage" : "Should contain only 50 characters"},
+                "givenName" : {"pattern" : "^[-a-zA-Z'_ ]{1,50}$.*$", "errorMessage" : "Should contain only 50 characters"},
+                "middleName" : {"pattern" : "^[-a-zA-Z'_ ]{1,50}$.*$", "errorMessage" : "Should contain only 50 characters"},
+                "givenNameLocal": {"pattern" : "^[a-zA-Z\\u0621-\\u064A0'_ ]{1,50}$.*$", "errorMessage" : "Should contain only 50 characters"},
+                "familyNameLocal": {"pattern" : "^[a-zA-Z\\u0621-\\u064A0'_ ]{1,50}$.*$", "errorMessage" : "Should contain only 50 characters"},
+                "middleNameLocal": {"pattern" : "^[a-zA-Z\\u0621-\\u064A0'_ ]{1,50}$.*$", "errorMessage" : "Should contain only 50 characters"},
+                "nameOfContactPersonInArabic": {"pattern" : "^[a-zA-Z\\u0621-\\u064A0'_ ]{1,50}$.*$", "errorMessage" : "Should contain only 50 characters"},
+                "nameOfContactPerson": {"pattern" : "^[a-zA-Z'_ ]{1,50}$.*$", "errorMessage" : "Should contain only 50 characters"},
+                "National ID": {"pattern": "[a-zA-Z0-9\\s]{0,9}", "errorMessage" : "Should not exceed more than 9 characters"},
+                "Amman ID": {"pattern" : "[a-zA-Z0-9\\s]{1,50}$.*$", "errorMessage" : "Should contain only 50 characters"},
+                "Previous MSF ID": {"pattern" : "[a-zA-Z0-9\\s]{1,50}$.*$", "errorMessage" : "Should contain only 50 characters"},
+                "address1": {"pattern" : "^[a-zA-Z0-9\\u0621-\\u064A0'_ -]{1,50}$.*$","errorMessage" : "Should contain only 50 characters"},
+                "phoneNumber 1": {"pattern" : "[+]{0,1}[0-9]{0,12}", "errorMessage" : "Should not exceed 12 characters and should contain only numbers"},
+                "phoneNumber 2":  {"pattern": "[+]{0,1}[0-9]{0,12}", "errorMessage" : "Should not exceed 12 characters and should contain only numbers"},
+                "contactPhoneNumber":  {"pattern": "[+]{0,1}[0-9]{0,12}", "errorMessage" : "Should not exceed 12 characters and should contain only numbers"}
+            },
+                "patientSearchResults": {
+                    "personAttributes": {
+                        "fields": ["givenNameLocal","familyNameLocal","middleNameLocal","phoneNumber 1"],
+                        "localLanguageFullNameFields": ["givenNameLocal","middleNameLocal","familyNameLocal"]
+                    }
+                },
+            "patientSearch": {
+                "customAttributes": {
+                    "label": "REGISTRATION_SEARCH_NAME_IN_ARABIC",
+                    "placeholder": "REGISTRATION_SEARCH_PLACEHOLDER_NAME_IN_ARABIC",
+                    "fields": ["givenNameLocal", "middleNameLocal", "familyNameLocal"]
+                }
+            }
+        }
+}
